@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Terminal Access</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: "Courier New", monospace;
+}
+
+body{
+    background:black;
+    overflow:hidden;
+    color:#00ff00;
+}
+
+/* MATRIX CANVAS */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+/* TERMINAL BOX */
+.login-container{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:380px;
+    padding:30px;
+    background:rgba(0,0,0,0.8);
+    border:1px solid #00ff00;
+    box-shadow:0 0 20px #00ff00;
+    text-align:center;
+}
+
+/* GLITCH TITLE */
+.glitch{
+    font-size:22px;
+    margin-bottom:20px;
+    position:relative;
+    color:#00ff00;
+    animation: flicker 1.5s infinite alternate;
+}
+
+@keyframes flicker{
+    from{opacity:1;}
+    to{opacity:0.8;}
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    background:black;
+    border:1px solid #00ff00;
+    color:#00ff00;
+    outline:none;
+}
+
+input:focus{
+    box-shadow:0 0 10px #00ff00;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#00ff00;
+    color:black;
+    border:none;
+    cursor:pointer;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+button:hover{
+    background:black;
+    color:#00ff00;
+    border:1px solid #00ff00;
+}
+
+.error-msg{
+    margin-top:10px;
+    font-size:14px;
+}
+
+.typing{
+    margin-bottom:15px;
+    height:20px;
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="login-container">
+    <div class="glitch">>> View my interactive projects!</div>
+    <div class="typing" id="typing"></div>
+
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="USERNAME" required>
+        <input type="password" id="password" placeholder="PASSWORD" required>
+        <button type="submit">INITIATE LOGIN</button>
+        <div class="error-msg" id="error-msg"></div>
+    </form>
+
+    <p style="font-size:12px;margin-top:15px;">type → admin / admin</p>
+</div>
+
+<script>
+
+/* MATRIX RAIN EFFECT */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+const letters = "01";
+const fontSize = 16;
+const columns = canvas.width/fontSize;
+const drops = [];
+
+for(let x=0;x<columns;x++)
+    drops[x]=1;
+
+function draw(){
+    ctx.fillStyle="rgba(0,0,0,0.05)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle="#00ff00";
+    ctx.font=fontSize+"px monospace";
+
+    for(let i=0;i<drops.length;i++){
+        const text = letters.charAt(Math.floor(Math.random()*letters.length));
+        ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+        if(drops[i]*fontSize > canvas.height && Math.random()>0.975)
+            drops[i]=0;
+
+        drops[i]++;
+    }
+}
+
+setInterval(draw,33);
+
+/* TYPING EFFECT */
+const text = "SYSTEM READY... AUTHENTICATION REQUIRED.";
+let index=0;
+const typingElement=document.getElementById("typing");
+
+function type(){
+    if(index<text.length){
+        typingElement.textContent+=text.charAt(index);
+        index++;
+        setTimeout(type,50);
+    }
+}
+type();
+
+/* LOGIN LOGIC */
+document.getElementById("loginForm").addEventListener("submit",function(e){
+    e.preventDefault();
+
+    const user=document.getElementById("username").value;
+    const pass=document.getElementById("password").value;
+    const error=document.getElementById("error-msg");
+
+    if(user==="admin" && pass==="admin"){
+        error.style.color="#00ff00";
+        error.textContent="ACCESS GRANTED... REDIRECTING";
+        setTimeout(()=>{
+            window.location.href="aichatbot.html";
+        },1500);
+    }else{
+        error.style.color="red";
+        error.textContent="ACCESS DENIED!";
+    }
+});
+
+</script>
+
+</body>
+</html>

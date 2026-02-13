@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Portfolio website</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* GLOBAL RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* SOFT CORPORATE BACKGROUND */
+body{
+    background: linear-gradient(135deg, #eef2f7, #dbe6f6);
+    color:#2d3748;
+    padding:40px 20px;
+}
+
+/* HEADINGS */
+h1{
+    text-align:center;
+    margin-bottom:30px;
+    font-weight:700;
+    color:#1a365d;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+    font-weight:600;
+    color:#2b6cb0;
+}
+
+/* CARD SECTIONS */
+.section{
+    background:rgba(255,255,255,0.85);
+    backdrop-filter:blur(8px);
+    padding:35px;
+    border-radius:18px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.08);
+    margin-bottom:50px;
+    max-width:900px;
+    margin-left:auto;
+    margin-right:auto;
+    transition:0.3s ease;
+}
+
+.section:hover{
+    transform:translateY(-5px);
+    box-shadow:0 20px 45px rgba(0,0,0,0.12);
+}
+
+/* =======================
+   CHATBOT DESIGN
+======================= */
+
+.chat-messages{
+    height:260px;
+    overflow-y:auto;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+    background:#f7fafc;
+    border:1px solid #e2e8f0;
+}
+/* Typing animation */
+.typing-dot{
+  display:inline-block;
+  font-style:italic;
+  opacity:0.7;
+}
+
+.typing-dot::after{
+  content:"";
+  display:inline-block;
+  width:6px;
+  height:6px;
+  margin-left:6px;
+  background:#0066ff;
+  border-radius:50%;
+  animation: dot 1s infinite;
+}
+
+@keyframes dot{
+  0% {transform: translateY(0);}
+  50% {transform: translateY(-3px);}
+  100% {transform: translateY(0);}
+}
+
+
+/* Message Bubbles */
+.message{
+    margin-bottom:12px;
+    padding:10px 14px;
+    border-radius:15px;
+    max-width:75%;
+    animation:fadeIn 0.3s ease;
+}
+
+.user{
+    background:#3182ce;
+    color:white;
+    margin-left:auto;
+    text-align:right;
+}
+
+.bot{
+    background:#edf2f7;
+    color:#2d3748;
+    margin-right:auto;
+}
+
+/* Buttons */
+.buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.buttons button{
+    padding:8px 18px;
+    border:none;
+    border-radius:20px;
+    background:#2b6cb0;
+    color:white;
+    cursor:pointer;
+    font-size:14px;
+    transition:0.3s;
+}
+
+.buttons button:hover{
+    background:#1a365d;
+    transform:scale(1.05);
+}
+
+/* Input */
+input[type="text"]{
+    width:75%;
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid #cbd5e0;
+    transition:0.3s;
+}
+
+input[type="text"]:focus{
+    border-color:#2b6cb0;
+    box-shadow:0 0 0 2px rgba(43,108,176,0.2);
+    outline:none;
+}
+
+.chat-send{
+    padding:10px 20px;
+    border:none;
+    background:#38a169;
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.chat-send:hover{
+    background:#2f855a;
+    transform:scale(1.05);
+}
+
+/* =======================
+   JOB TRACKER DESIGN
+======================= */
+
+form{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+form input, 
+form select{
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #cbd5e0;
+    transition:0.3s;
+}
+
+form input:focus,
+form select:focus{
+    border-color:#2b6cb0;
+    box-shadow:0 0 0 2px rgba(43,108,176,0.2);
+    outline:none;
+}
+
+form button{
+    padding:10px 22px;
+    border:none;
+    background:#2b6cb0;
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+form button:hover{
+    background:#1a365d;
+    transform:scale(1.05);
+}
+
+/* Table */
+table{
+    width:100%;
+    border-collapse:collapse;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+th{
+    background:#2b6cb0;
+    color:white;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #e2e8f0;
+    text-align:center;
+}
+
+tr:hover{
+    background:#f1f5f9;
+}
+
+/* Status Colors */
+.status-Applied{color:#3182ce;font-weight:600;}
+.status-Interview{color:#d69e2e;font-weight:600;}
+.status-Rejected{color:#e53e3e;font-weight:600;}
+.status-Offer{color:#38a169;font-weight:600;}
+
+/* Animation */
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(5px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* Responsive */
+@media(max-width:768px){
+    input[type="text"]{
+        width:100%;
+        margin-bottom:10px;
+    }
+}
+/* GALLERY */
+.gallery{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:15px;
+  margin-top:20px;
+}
+
+.gallery-item{
+  background:white;
+  border-radius:15px;
+  overflow:hidden;
+  border:1px solid #e2e8f0;
+  box-shadow:0 10px 20px rgba(0,0,0,0.08);
+  cursor:pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+}
+
+.gallery-item p{
+  padding:10px;
+  font-weight:600;
+  color:#1a365d;
+  text-align:center;
+}
+
+.gallery-item:hover{
+  transform: translateY(-5px);
+  box-shadow:0 15px 30px rgba(0,0,0,0.15);
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  z-index:999;
+  padding-top:60px;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+}
+
+.modal-content{
+  margin:auto;
+  display:block;
+  width:80%;
+  max-width:700px;
+  border-radius:15px;
+}
+
+.close{
+  position:absolute;
+  top:20px;
+  right:30px;
+  color:white;
+  font-size:40px;
+  cursor:pointer;
+}
+
+#modal-caption{
+  text-align:center;
+  color:white;
+  margin-top:10px;
+}
+
+@media(max-width:768px){
+  .gallery{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+</style>
+
+</head>
+<body>
+
+<h1>Portfolio Tools</h1>
+
+<!-- CHATBOT SECTION -->
+<div class="section">
+    <h2>Hi! I'm AI chatbot made by Robert!</h2>
+    <p style="text-align:center;margin-bottom:15px;">
+         learn about my skills,projects, and contact details.
+    </p>
+
+    <div class="chat-messages" id="messages"></div>
+
+    <div class="buttons">
+        <button onclick="sendMessage('What is your name?')">Name</button>
+        <button onclick="sendMessage('What skills do you have?')">Skills</button>
+        <button onclick="sendMessage('What projects have you built?')">Projects</button>
+        <button onclick="sendMessage('How can I contact you?')">Contact</button>
+        <button onclick="sendMessage('Do you have a GitHub?')">GitHub</button>
+    </div>
+
+    <input type="text" id="userInput" placeholder="Ask something about my portfolio..." />
+    <button class="chat-send" onclick="sendMessage()">Send</button>
+</div>
+
+<!-- JOB TRACKER SECTION -->
+<div class="section">
+    <h2>💼 Job Application Tracker</h2>
+
+    <form id="jobForm">
+        <input type="text" id="company" placeholder="Company Name" required>
+        <input type="text" id="role" placeholder="Role / Position" required>
+        <select id="status" required>
+            <option value="">Status</option>
+            <option value="Applied">Applied</option>
+            <option value="Interview">Interview</option>
+            <option value="Rejected">Rejected</option>
+            <option value="Offer">Offer</option>
+        </select>
+        <button type="submit">Add</button>
+    </form>
+
+    <table id="jobTable">
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<!-- SKILLS GALLERY -->
+<div class="section">
+  <h2>📸 Skills Showcase</h2>
+
+  <div class="gallery">
+    <div class="gallery-item" onclick="openModal(1)">
+      <img src="new portfolio/skill1.jpg.jpeg" alt="Skill 1">
+      <p>setup uninterruptable power supply (ups)</p>
+    </div>
+
+    <div class="gallery-item" onclick="openModal(2)">
+      <img src="new portfolio/skill2.jpg.jpeg" alt="Skill 2">
+      <p>printer troubleshooting</p>
+    </div>
+
+    <div class="gallery-item" onclick="openModal(3)">
+      <img src="new portfolio/skill3.jpg.jpeg" alt="Skill 3">
+      <p>install software</p>
+    </div>
+
+    <div class="gallery-item" onclick="openModal(4)">
+      <img src="new portfolio/skill4.jpg.jpeg" alt="Skill 4">
+      <p>networking setup</p>
+    </div>
+
+    <div class="gallery-item" onclick="openModal(5)">
+      <img src="new portfolio/skill5.jpg.jpeg" alt="Skill 5">
+      <p>system maintenance</p>
+    </div>
+
+    <div class="gallery-item" onclick="openModal(6)">
+      <img src="new portfolio/skill6.jpg.jpeg" alt="Skill 6">
+      <p>technical support</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal" onclick="closeModal()">
+  <span class="close" onclick="closeModal()">&times;</span>
+  <img class="modal-content" id="modal-img">
+  <div id="modal-caption"></div>
+</div>
+
+<script>
+
+/* CHATBOT LOGIC */
+/* CHATBOT LOGIC WITH TYPING EFFECT */
+const messages = document.getElementById("messages");
+const input = document.getElementById("userInput");
+
+function sendMessage(predefined) {
+  const text = predefined || input.value;
+  if (!text) return;
+
+  // Show user message immediately
+  messages.innerHTML += `<div class="message user">${text}</div>`;
+  messages.scrollTop = messages.scrollHeight;
+
+  // Clear input
+  input.value = "";
+
+  // Bot typing effect
+  showTypingEffect(text);
+}
+
+function showTypingEffect(userText) {
+  // Bot typing placeholder
+  const typingBubble = document.createElement("div");
+  typingBubble.className = "message bot";
+  typingBubble.innerHTML = `<span class="typing-dot">Typing</span>`;
+  messages.appendChild(typingBubble);
+  messages.scrollTop = messages.scrollHeight;
+
+  // Wait 800ms before sending response
+  setTimeout(() => {
+    typingBubble.remove();
+    const response = getBotResponse(userText);
+    messages.innerHTML += `<div class="message bot">${response}</div>`;
+    messages.scrollTop = messages.scrollHeight;
+  }, 900);
+}
+
+function getBotResponse(text) {
+  const lower = text.toLowerCase();
+
+  if (lower.includes("name")) {
+    return "Hi! my name is Robert Joshua Custodio, a Computer Science graduate.";
+  } else if (lower.includes("skill")) {
+    return "I have skills in software such as Python, Java, C++, JavaScript, SQL, and also in hardware including networking pc setups and troubleshooting.";
+  } else if (lower.includes("project")) {
+    return "I have built web applications, AI-based projects, and system tools.";
+  } else if (lower.includes("contact")) {
+    return "You can contact me via email: custodiorobert79@gmail.com.";
+  } else if (lower.includes("github")) {
+    return "Yes! Visit my GitHub: custodiorobert.github.io.";
+  } else {
+    return "Sorry, I don’t understand that yet. Please ask about skills, projects, or contact info.";
+  }
+}
+
+/* JOB TRACKER */
+document.getElementById("jobForm").addEventListener("submit",function(e){
+    e.preventDefault();
+
+    const company = document.getElementById("company").value;
+    const role = document.getElementById("role").value;
+    const status = document.getElementById("status").value;
+
+    const table = document.querySelector("#jobTable tbody");
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${company}</td>
+        <td>${role}</td>
+        <td class="status-${status}">${status}</td>
+        <td><button onclick="this.closest('tr').remove()">❌</button></td>
+    `;
+
+    table.appendChild(row);
+    this.reset();
+});
+/* GALLERY MODAL */
+function openModal(index){
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modal-img");
+  const caption = document.getElementById("modal-caption");
+
+  modal.style.display = "block";
+  modalImg.src = `new portfolio/skill${index}.jpg.jpeg`;
+  caption.textContent = `Skill Photo ${index}`;
+}
+function closeModal(){
+  document.getElementById("modal").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
